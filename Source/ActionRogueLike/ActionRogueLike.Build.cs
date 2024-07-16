@@ -7,8 +7,22 @@ public class ActionRogueLike : ModuleRules
 	public ActionRogueLike(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		
+		PublicIncludePaths.AddRange(
+			new string[] {
+				"ActionRogueLike"
+			}
+			);
+		
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
+			"EnhancedInput"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
