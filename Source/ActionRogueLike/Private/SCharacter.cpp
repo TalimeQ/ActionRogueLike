@@ -72,7 +72,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComp->BindAction(Input_LookMouse,ETriggerEvent::Triggered,this,&ASCharacter::LookMouse);
 
 	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PrimaryAttack);
-	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::Jump);
+	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::PerformJump);
 }
 
 void ASCharacter::LookMouse(const FInputActionValue& InputValue)
@@ -92,5 +92,10 @@ void ASCharacter::PrimaryAttack()
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	
 	GetWorld()->SpawnActor<AActor>(ProjectileClass,SpawnTM,SpawnParams);
+}
+
+void ASCharacter::PerformJump()
+{
+	Jump();
 }
 

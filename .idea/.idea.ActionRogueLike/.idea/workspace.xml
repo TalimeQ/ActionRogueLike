@@ -18,8 +18,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SExplodingBarrel.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SMagicProjectile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SCharacter.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SExplodingBarrel.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SMagicProjectile.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -204,7 +206,7 @@
       <workItem from="1721145899667" duration="1886000" />
       <workItem from="1721148183184" duration="7249000" />
       <workItem from="1721249819053" duration="6033000" />
-      <workItem from="1721307703612" duration="259000" />
+      <workItem from="1721307703612" duration="4853000" />
     </task>
     <servers />
   </component>

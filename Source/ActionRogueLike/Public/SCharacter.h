@@ -50,6 +50,7 @@ protected:
 	void LookMouse(const FInputActionValue& InputValue);
 
 	void PrimaryAttack();
+	void PerformJump();
 	
 public:	
 
