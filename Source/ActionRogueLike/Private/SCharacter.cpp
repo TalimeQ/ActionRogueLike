@@ -4,6 +4,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -13,9 +14,14 @@ ASCharacter::ASCharacter()
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComp");
 	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->bUsePawnControlRotation = true;
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	
+	bUseControllerRotationYaw = false;
 }
 
 // Called when the game starts or when spawned
@@ -64,7 +70,9 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	InputComp->BindAction(Input_Move,ETriggerEvent::Triggered,this,&ASCharacter::Move);
 	InputComp->BindAction(Input_LookMouse,ETriggerEvent::Triggered,this,&ASCharacter::LookMouse);
-	
+
+	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PrimaryAttack);
+	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::Jump);
 }
 
 void ASCharacter::LookMouse(const FInputActionValue& InputValue)
@@ -74,3 +82,15 @@ void ASCharacter::LookMouse(const FInputActionValue& InputValue)
 	AddControllerYawInput(Value.X);
 	AddControllerPitchInput(Value.Y);
 }
+
+void ASCharacter::PrimaryAttack()
+{
+	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	FTransform SpawnTM = FTransform(GetControlRotation(),HandLocation);
+	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	GetWorld()->SpawnActor<AActor>(ProjectileClass,SpawnTM,SpawnParams);
+}
+

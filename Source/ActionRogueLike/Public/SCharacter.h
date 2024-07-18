@@ -31,20 +31,31 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	const UInputMappingContext* DefaultMappingContext;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<AActor> ProjectileClass;
+	
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Move;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_LookMouse;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_PrimaryAttack;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_Jump;
 
+	
 	virtual void BeginPlay() override;
+	
 	void Move(const FInputActionInstance& Instance);
+	void LookMouse(const FInputActionValue& InputValue);
+
+	void PrimaryAttack();
 	
 public:	
 
 	virtual void Tick(float DeltaTime) override;
 
-
-
+	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void LookMouse(const FInputActionValue& InputValue);
+
 };
