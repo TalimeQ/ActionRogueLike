@@ -19,9 +19,15 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SExplodingBarrel.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SGameplayInterface.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SInteractionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SItemChest.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SMagicProjectile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SExplodingBarrel.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SGameplayInterface.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SInteractionComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SItemChest.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SMagicProjectile.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -39,7 +45,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.625&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.6251189&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -206,7 +212,12 @@
       <workItem from="1721145899667" duration="1886000" />
       <workItem from="1721148183184" duration="7249000" />
       <workItem from="1721249819053" duration="6033000" />
-      <workItem from="1721307703612" duration="4853000" />
+      <workItem from="1721307703612" duration="5259000" />
+      <workItem from="1721393600922" duration="3317000" />
+      <workItem from="1721473857697" duration="3761000" />
+      <workItem from="1721565833670" duration="8526000" />
+      <workItem from="1721597769958" duration="603000" />
+      <workItem from="1721598786738" duration="2559000" />
     </task>
     <servers />
   </component>

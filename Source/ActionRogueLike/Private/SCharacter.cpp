@@ -1,9 +1,10 @@
 #include "ActionRogueLike/Public/SCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "InputAction.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "SInteractionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -18,6 +19,8 @@ ASCharacter::ASCharacter()
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComp");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -73,6 +76,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PrimaryAttack);
 	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::PerformJump);
+	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
 }
 
 void ASCharacter::LookMouse(const FInputActionValue& InputValue)
@@ -84,6 +88,13 @@ void ASCharacter::LookMouse(const FInputActionValue& InputValue)
 }
 
 void ASCharacter::PrimaryAttack()
+{
+	PlayAnimMontage(AttackAnimMontage);
+
+	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack,this,&ASCharacter::PrimaryAttack_TimeElapsed,0.2f);
+}
+
+void ASCharacter::PrimaryAttack_TimeElapsed()
 {
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	FTransform SpawnTM = FTransform(GetControlRotation(),HandLocation);

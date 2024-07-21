@@ -3,18 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InputAction.h"
 #include "GameFramework/Character.h"
 #include "SCharacter.generated.h"
 
 class UCameraComponent;
 class USpringArmComponent;
 class UInputMappingContext;
+class USInteractionComponent;
+class UAnimMontage;
+class UInputAction;
+struct FInputActionInstance;
+struct FInputActionValue;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> ProjectileClass;
+
+	UPROPERTY(EditAnywhere,Category = "Attack")
+	UAnimMontage* AttackAnimMontage = nullptr;
+	
+	FTimerHandle TimerHandle_PrimaryAttack;
 
 public:
 
@@ -29,10 +42,10 @@ protected:
 	USpringArmComponent* SpringArmComponent;
 
 	UPROPERTY(EditDefaultsOnly)
+	USInteractionComponent* InteractionComp;
+	
+	UPROPERTY(EditDefaultsOnly)
 	const UInputMappingContext* DefaultMappingContext;
-
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<AActor> ProjectileClass;
 	
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Move;
@@ -42,14 +55,17 @@ protected:
 	const UInputAction* Input_PrimaryAttack;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Jump;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_Interact;
 
 	
 	virtual void BeginPlay() override;
 	
 	void Move(const FInputActionInstance& Instance);
 	void LookMouse(const FInputActionValue& InputValue);
-
+	
 	void PrimaryAttack();
+	void PrimaryAttack_TimeElapsed();
 	void PerformJump();
 	
 public:	

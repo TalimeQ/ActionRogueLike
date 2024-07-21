@@ -20,6 +20,11 @@ ASExplodingBarrel::ASExplodingBarrel()
 	ForceComp->SetupAttachment(RootComponent);
 }
 
+void ASExplodingBarrel::Explode()
+{
+	Receive_Explode();
+}
+
 void ASExplodingBarrel::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,6 +39,11 @@ void ASExplodingBarrel::Tick(float DeltaTime)
 }
 
 void ASExplodingBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit )
+{
+	Receive_Explode();
+}
+
+void ASExplodingBarrel::Receive_Explode()
 {
 	ForceComp->FireImpulse();
 }

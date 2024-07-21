@@ -7,7 +7,7 @@
 class UStaticMeshComponent;
 class URadialForceComponent;
 
-UCLASS()
+UCLASS(BlueprintType,Blueprintable)
 class ACTIONROGUELIKE_API ASExplodingBarrel : public AActor
 {
 	GENERATED_BODY()
@@ -16,6 +16,9 @@ public:
 
 	ASExplodingBarrel();
 
+	UFUNCTION(BlueprintCallable)
+	void Explode();
+	
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -28,6 +31,9 @@ protected:
 
 	UFUNCTION()
 	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void Receive_Explode();
 
 public:	
 
