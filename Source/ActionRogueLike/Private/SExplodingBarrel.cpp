@@ -41,6 +41,12 @@ void ASExplodingBarrel::Tick(float DeltaTime)
 void ASExplodingBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit )
 {
 	Receive_Explode();
+	
+	UE_LOG(LogTemp,Log,TEXT("OnActorHit in Explosive Barrel"));
+	UE_LOG(LogTemp,Warning, TEXT("OtherActor is: %s , at game time %f"), *GetNameSafe(OtherActor), GetWorld()->TimeSeconds);
+
+	FString CombinedString = FString::Printf(TEXT("Hit at location %s"), *Hit.ImpactPoint.ToString());
+	DrawDebugString(GetWorld(),Hit.ImpactPoint,CombinedString,nullptr,FColor::Orange,2.0f,true);
 }
 
 void ASExplodingBarrel::Receive_Explode()

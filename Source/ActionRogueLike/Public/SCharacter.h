@@ -22,12 +22,16 @@ class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> ProjectileClass;
+	TSubclassOf<AActor> MainProjectileClass;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> SecondProjectileClass;
+	UPROPERTY(EditAnywhere, Category = "Attack")
+	TSubclassOf<AActor> DashProjectileClass;
 
 	UPROPERTY(EditAnywhere,Category = "Attack")
 	UAnimMontage* AttackAnimMontage = nullptr;
 	
-	FTimerHandle TimerHandle_PrimaryAttack;
+	FTimerHandle TimerHandle_AbilityUsed;
 
 public:
 
@@ -54,25 +58,27 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_PrimaryAttack;
 	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_SecondaryAttack;
+	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Jump;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Interact;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_Dash;
 
-	
+protected:
 	virtual void BeginPlay() override;
 	
 	void Move(const FInputActionInstance& Instance);
 	void LookMouse(const FInputActionValue& InputValue);
 	
-	void PrimaryAttack();
-	void PrimaryAttack_TimeElapsed();
+	void PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType);
+	void Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType);
 	void PerformJump();
 	
 public:	
 
 	virtual void Tick(float DeltaTime) override;
-
-	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

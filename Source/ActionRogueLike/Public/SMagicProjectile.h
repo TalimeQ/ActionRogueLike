@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SProjectile.h"
 #include "GameFramework/Actor.h"
 #include "SMagicProjectile.generated.h"
 
@@ -12,7 +13,7 @@ class UProjectileMovementComponent;
 class UParticleSystemComponent;
 
 UCLASS()
-class ACTIONROGUELIKE_API ASMagicProjectile : public AActor
+class ACTIONROGUELIKE_API ASMagicProjectile : public ASProjectile
 {
 	GENERATED_BODY()
 	
@@ -21,15 +22,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* SphereComp = nullptr;
-	
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* ParticleSystemComp = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-	UProjectileMovementComponent* MovementComp = nullptr;
 	
 public:	
 	// Called every frame

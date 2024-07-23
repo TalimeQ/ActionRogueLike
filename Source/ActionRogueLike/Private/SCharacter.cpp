@@ -4,8 +4,11 @@
 #include "InputAction.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "SGameplayFunctionLibrary.h"
 #include "SInteractionComponent.h"
+#include "SProjectile.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ASCharacter::ASCharacter()
@@ -74,7 +77,10 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComp->BindAction(Input_Move,ETriggerEvent::Triggered,this,&ASCharacter::Move);
 	InputComp->BindAction(Input_LookMouse,ETriggerEvent::Triggered,this,&ASCharacter::LookMouse);
 
-	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PrimaryAttack);
+	// TODO :: Potentially we should put projectiles into second component atm, but there is queued ability comp somewhere in course so lets do not do this :)
+	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,MainProjectileClass);
+	InputComp->BindAction(Input_SecondaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,SecondProjectileClass);
+	InputComp->BindAction(Input_Dash,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,DashProjectileClass);
 	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::PerformJump);
 	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
 }
@@ -87,22 +93,28 @@ void ASCharacter::LookMouse(const FInputActionValue& InputValue)
 	AddControllerPitchInput(Value.Y);
 }
 
-void ASCharacter::PrimaryAttack()
+void ASCharacter::PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType)
 {
 	PlayAnimMontage(AttackAnimMontage);
 
-	GetWorldTimerManager().SetTimer(TimerHandle_PrimaryAttack,this,&ASCharacter::PrimaryAttack_TimeElapsed,0.2f);
+	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &ASCharacter::Attack_TimeElapsed,ProjectileType);
+	GetWorldTimerManager().SetTimer(TimerHandle_AbilityUsed,TimerDelegate,0.2,false);
 }
 
-void ASCharacter::PrimaryAttack_TimeElapsed()
+
+
+void ASCharacter::Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType)
 {
 	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	FTransform SpawnTM = FTransform(GetControlRotation(),HandLocation);
+	FVector ImpactPoint = USGameplayFunctionLibrary::GetShootPoint(CameraComponent,this);
+	FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation,ImpactPoint);
+	FTransform SpawnTM = FTransform(SpawnRotation,HandLocation);
 	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	SpawnParams.Instigator = this;
 	
-	GetWorld()->SpawnActor<AActor>(ProjectileClass,SpawnTM,SpawnParams);
+	GetWorld()->SpawnActor<AActor>(ProjectileType,SpawnTM,SpawnParams);
 }
 
 void ASCharacter::PerformJump()
