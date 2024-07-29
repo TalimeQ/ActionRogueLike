@@ -10,6 +10,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class UInputMappingContext;
 class USInteractionComponent;
+class USAttributesComponent;
 class UAnimMontage;
 class UInputAction;
 struct FInputActionInstance;
@@ -19,6 +20,11 @@ UCLASS()
 class ACTIONROGUELIKE_API ASCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+
+public:
+
+	ASCharacter();
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
@@ -32,11 +38,7 @@ protected:
 	UAnimMontage* AttackAnimMontage = nullptr;
 	
 	FTimerHandle TimerHandle_AbilityUsed;
-
-public:
-
-	ASCharacter();
-
+	
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -50,6 +52,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly)
 	const UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
+	USAttributesComponent* AttributeComponent;
 	
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Move;
@@ -66,19 +71,26 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Dash;
 
+public:	
+
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 protected:
 	virtual void BeginPlay() override;
 	
 	void Move(const FInputActionInstance& Instance);
 	void LookMouse(const FInputActionValue& InputValue);
+
+	virtual void PostInitializeComponents() override;
 	
 	void PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType);
 	void Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType);
 	void PerformJump();
-	
-public:	
 
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
+
+
 
 };

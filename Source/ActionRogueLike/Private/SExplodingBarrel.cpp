@@ -3,6 +3,7 @@
 
 #include "SExplodingBarrel.h"
 
+#include "SAttributesComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 
 
@@ -47,6 +48,18 @@ void ASExplodingBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor
 
 	FString CombinedString = FString::Printf(TEXT("Hit at location %s"), *Hit.ImpactPoint.ToString());
 	DrawDebugString(GetWorld(),Hit.ImpactPoint,CombinedString,nullptr,FColor::Orange,2.0f,true);
+
+	if(OtherActor == nullptr)
+	{
+		return;
+	}
+
+	USAttributesComponent* AttributesComp = OtherActor->FindComponentByClass<USAttributesComponent>();
+
+	if(AttributesComp != nullptr)
+	{
+		AttributesComp->ApplyHealthChange(-Damage);
+	}
 }
 
 void ASExplodingBarrel::Receive_Explode()

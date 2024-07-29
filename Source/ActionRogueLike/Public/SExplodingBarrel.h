@@ -26,7 +26,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	URadialForceComponent* ForceComp = nullptr;
-	
+
+	UPROPERTY(EditDefaultsOnly)
+	float Damage = 30.0f;
+
 	virtual void BeginPlay() override;
 
 	UFUNCTION()

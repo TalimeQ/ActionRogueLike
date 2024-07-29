@@ -4,6 +4,7 @@
 #include "InputAction.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "SAttributesComponent.h"
 #include "SGameplayFunctionLibrary.h"
 #include "SInteractionComponent.h"
 #include "SProjectile.h"
@@ -25,6 +26,8 @@ ASCharacter::ASCharacter()
 
 	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
 
+	AttributeComponent = CreateDefaultSubobject<USAttributesComponent>("Attributes Component");
+	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
@@ -93,6 +96,12 @@ void ASCharacter::LookMouse(const FInputActionValue& InputValue)
 	AddControllerPitchInput(Value.Y);
 }
 
+void ASCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	AttributeComponent->OnHealthChanged.AddDynamic(this,&ASCharacter::OnHealthChanged);
+}
+
 void ASCharacter::PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType)
 {
 	PlayAnimMontage(AttackAnimMontage);
@@ -105,16 +114,19 @@ void ASCharacter::PerformAbility(const FInputActionValue& Value, TSubclassOf<AAc
 
 void ASCharacter::Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType)
 {
-	FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	FVector ImpactPoint = USGameplayFunctionLibrary::GetShootPoint(CameraComponent,this);
-	FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation,ImpactPoint);
-	FTransform SpawnTM = FTransform(SpawnRotation,HandLocation);
-	
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	SpawnParams.Instigator = this;
-	
-	GetWorld()->SpawnActor<AActor>(ProjectileType,SpawnTM,SpawnParams);
+    if(ensureAlways(ProjectileType))
+    {
+        FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+        FVector ImpactPoint = USGameplayFunctionLibrary::GetShootPoint(CameraComponent,this);
+        FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation,ImpactPoint);
+        FTransform SpawnTM = FTransform(SpawnRotation,HandLocation);
+        
+        FActorSpawnParameters SpawnParams;
+        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+        SpawnParams.Instigator = this;
+        
+        GetWorld()->SpawnActor<AActor>(ProjectileType,SpawnTM,SpawnParams);
+	}
 }
 
 void ASCharacter::PerformJump()
@@ -122,3 +134,12 @@ void ASCharacter::PerformJump()
 	Jump();
 }
 
+void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth,
+	float Delta)
+{
+	if(NewHealth <=0.0f && Delta < 0.0f)
+	{
+		APlayerController* PC = Cast<APlayerController>(GetController());
+		DisableInput(PC);
+	}
+}
