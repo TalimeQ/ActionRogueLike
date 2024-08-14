@@ -17,4 +17,10 @@ class ACTIONROGUELIKE_API USGameplayFunctionLibrary : public UBlueprintFunctionL
 public:
 	UFUNCTION()
 	static FVector GetShootPoint(UCameraComponent* CameraComponent, AActor* TracingActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	static bool ApplyDamage(AActor* DamageDealer, AActor* TargetActor, float DamageAmount);
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	static bool ApplyDirectionalDamage(AActor* DamageDealer, AActor* TargetActor, float DamageAmount, const FHitResult& HitResult);
 };

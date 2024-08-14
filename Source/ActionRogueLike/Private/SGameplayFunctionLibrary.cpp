@@ -3,6 +3,7 @@
 
 #include "SGameplayFunctionLibrary.h"
 
+#include "SAttributesComponent.h"
 #include "Camera/CameraComponent.h"
 
 FVector USGameplayFunctionLibrary::GetShootPoint(UCameraComponent* CameraComponent, AActor* TracingActor)
@@ -23,4 +24,31 @@ FVector USGameplayFunctionLibrary::GetShootPoint(UCameraComponent* CameraCompone
 	{
 		return TraceEnd;
 	}
+}
+
+bool USGameplayFunctionLibrary::ApplyDamage(AActor* DamageDealer, AActor* TargetActor, float DamageAmount)
+{
+	USAttributesComponent* AttributesComp = USAttributesComponent::GetAttributes(TargetActor);
+	if(AttributesComp)
+	{
+		return AttributesComp->ApplyHealthChange(DamageDealer,DamageAmount);
+	}
+	return false;
+}
+
+bool USGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* DamageDealer, AActor* TargetActor, float DamageAmount,
+	const FHitResult& HitResult)
+{
+	if(ApplyDamage(DamageDealer,TargetActor,DamageAmount))
+	{
+		UPrimitiveComponent* Primitive = HitResult.GetComponent();
+		if(Primitive && Primitive->IsSimulatingPhysics(HitResult.BoneName))
+		{
+			Primitive->AddImpulseAtLocation(HitResult.ImpactNormal * -100000.0f,HitResult.ImpactPoint,HitResult.BoneName);
+			
+		}
+		return true;
+	}
+
+	return false;
 }

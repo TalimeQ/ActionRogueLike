@@ -21,6 +21,8 @@ public:
 
 protected:
 	void Cleanup();
+
+	virtual void PostInitializeComponents() override;
 	
 	UFUNCTION()
 	void TeleportOwner();
@@ -28,8 +30,9 @@ protected:
 	UFUNCTION()
 	void TriggerProjectile();
 
-	virtual void PostInitializeComponents() override;
-	
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 protected:
 
 	UPROPERTY(VisibleAnywhere)
@@ -41,6 +44,5 @@ protected:
 	float TeleportTime = 0.2f;
 	float TriggerTime = 0.2f;
 
-	UFUNCTION()
-	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 };

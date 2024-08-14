@@ -9,6 +9,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class UAudioComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASProjectile : public AActor
@@ -19,6 +20,11 @@ public:
 	ASProjectile();
 
 	virtual void PostInitializeComponents() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+protected:
+	virtual void BeginPlay() override;
 	
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
@@ -29,10 +35,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* ParticleSystemComp = nullptr;
-	
-	virtual void BeginPlay() override;
 
-public:	
-	virtual void Tick(float DeltaTime) override;
-
+	UPROPERTY(VisibleAnywhere)
+	UAudioComponent* AudioComponent = nullptr;
 };

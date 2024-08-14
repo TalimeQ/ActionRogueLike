@@ -9,6 +9,7 @@
 #include "SInteractionComponent.h"
 #include "SProjectile.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
@@ -31,6 +32,10 @@ ASCharacter::ASCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	bUseControllerRotationYaw = false;
+
+	HitFlashColor = FColor::Cyan;
+	HitParam = "TimeToHit";
+	ColorParam = "Color";
 }
 
 // Called when the game starts or when spawned
@@ -59,7 +64,6 @@ void ASCharacter::Move(const FInputActionInstance& Instance)
 void ASCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -88,6 +92,16 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
 }
 
+void ASCharacter::HealSelf(float Amount /* = 100 */)
+{
+	AttributeComponent->ApplyHealthChange(this,Amount);
+}
+
+FVector ASCharacter::GetPawnViewLocation() const
+{
+	return CameraComponent->GetComponentLocation();
+}
+
 void ASCharacter::LookMouse(const FInputActionValue& InputValue)
 {
 	const FVector2D Value = InputValue.Get<FVector2D>();
@@ -106,6 +120,11 @@ void ASCharacter::PerformAbility(const FInputActionValue& Value, TSubclassOf<AAc
 {
 	PlayAnimMontage(AttackAnimMontage);
 
+	if(ensure(CastingEmitterTemplate))
+	{
+		UGameplayStatics::SpawnEmitterAttached(CastingEmitterTemplate,GetMesh(),"Muzzle_01");
+	}
+	
 	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &ASCharacter::Attack_TimeElapsed,ProjectileType);
 	GetWorldTimerManager().SetTimer(TimerHandle_AbilityUsed,TimerDelegate,0.2,false);
 }
@@ -137,9 +156,20 @@ void ASCharacter::PerformJump()
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth,
 	float Delta)
 {
+	if(Delta < 0.0f && NewHealth >= 0.0f)
+	{
+		TriggerHitFlash();
+	}
+	
 	if(NewHealth <=0.0f && Delta < 0.0f)
 	{
 		APlayerController* PC = Cast<APlayerController>(GetController());
 		DisableInput(PC);
 	}
+}
+
+void ASCharacter::TriggerHitFlash()
+{
+	GetMesh()->SetVectorParameterValueOnMaterials(ColorParam,UKismetMathLibrary::Conv_LinearColorToVector(HitFlashColor));
+	GetMesh()->SetScalarParameterValueOnMaterials(HitParam,GetWorld()->GetTimeSeconds());
 }

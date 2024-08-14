@@ -17,28 +17,48 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../../Program Files/UE/UE_5.3/Engine/Source/Runtime/Engine/Private/Materials/HLSLMaterialTranslator.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Intermediate/Build/Win64/UnrealEditor/Inc/ActionRogueLike/UHT/AttributesInterface.gen.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/Interfaces/AttributesInterface.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SAIController.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SBTService_CheckAttackRange.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SBTService_CheckHealth.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SAttributesComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SDashProjectile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SExplodingBarrel.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SGameplayFunctionLibrary.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SGameplayInterface.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SHealthPotion.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SInteractionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SItemChest.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SMagicProjectile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/SProjectile.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/STargetDummy.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/UI/SWorldUserWidget.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/Interfaces/AttributesInterface.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SAICharacter.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SAIController.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTDecorator_Cooldown.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTService_CheckAttackRange.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTService_CheckHealth.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTTask_RangedAttack.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SAttributesComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SDashProjectile.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SExplodingBarrel.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SGameModeBase.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SGameplayFunctionLibrary.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SGameplayInterface.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SHealthPotion.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SInteractableActor.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SInteractionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SItemChest.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SMagicProjectile.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/SProjectile.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/STargetDummy.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/UI/SWorldUserWidget.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -50,16 +70,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.9742857",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.532097&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;SolutionBuilderGeneralOptionsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C++ Project.ActionRogueLike">
     <configuration name="ActionRogueLike" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -234,7 +254,21 @@
       <workItem from="1721843289102" duration="71000" />
       <workItem from="1721843435086" duration="1480000" />
       <workItem from="1721855135941" duration="4329000" />
-      <workItem from="1722253472959" duration="3149000" />
+      <workItem from="1722253472959" duration="11364000" />
+      <workItem from="1722279735095" duration="1897000" />
+      <workItem from="1722376912768" duration="4863000" />
+      <workItem from="1722419592554" duration="2227000" />
+      <workItem from="1722441731219" duration="9703000" />
+      <workItem from="1722502170426" duration="21392000" />
+      <workItem from="1722591107957" duration="7420000" />
+      <workItem from="1722614364928" duration="8569000" />
+      <workItem from="1722938514279" duration="6116000" />
+      <workItem from="1722963775078" duration="945000" />
+      <workItem from="1722981578231" duration="3634000" />
+      <workItem from="1723487900348" duration="1741000" />
+      <workItem from="1723570515029" duration="2457000" />
+      <workItem from="1723586531139" duration="5875000" />
+      <workItem from="1723627188760" duration="579000" />
     </task>
     <servers />
   </component>

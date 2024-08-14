@@ -19,6 +19,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Explode();
 	
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+	
+protected:
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION()
+	void Receive_Explode();
+	
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -29,17 +40,4 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	float Damage = 30.0f;
-
-	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-	UFUNCTION()
-	void Receive_Explode();
-
-public:	
-
-	virtual void Tick(float DeltaTime) override;
-
 };

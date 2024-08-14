@@ -58,7 +58,7 @@ void ASExplodingBarrel::OnComponentHit(UPrimitiveComponent* HitComponent, AActor
 
 	if(AttributesComp != nullptr)
 	{
-		AttributesComp->ApplyHealthChange(-Damage);
+		AttributesComp->ApplyHealthChange(this, -Damage);
 	}
 }
 

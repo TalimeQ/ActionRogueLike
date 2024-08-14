@@ -15,13 +15,18 @@ class ACTIONROGUELIKE_API ASItemChest : public AActor, public ISGameplayInterfac
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditAnywhere)
-	float TargetPitch = 0.0f;
-
-	
 	ASItemChest();
 
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
+
+	virtual void Tick(float DeltaTime) override;
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	UPROPERTY(EditAnywhere)
+	float TargetPitch = 0.0f;
 	
 protected:
 
@@ -33,10 +38,5 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	UStaticMeshComponent* GoldMesh;
-	
-	virtual void BeginPlay() override;
-
-public:	
-	virtual void Tick(float DeltaTime) override;
 
 };

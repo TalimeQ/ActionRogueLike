@@ -26,6 +26,31 @@ public:
 
 	ASCharacter();
 
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(Exec)
+	void HealSelf(float Amount = 100.0f);
+
+	virtual FVector GetPawnViewLocation() const override;
+	
+protected:
+	virtual void BeginPlay() override;
+	
+	void Move(const FInputActionInstance& Instance);
+	void LookMouse(const FInputActionValue& InputValue);
+
+	virtual void PostInitializeComponents() override;
+	
+	void PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType);
+	void Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType);
+	void PerformJump();
+	
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
+
+	void TriggerHitFlash();
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
 	TSubclassOf<AActor> MainProjectileClass;
@@ -36,6 +61,9 @@ protected:
 
 	UPROPERTY(EditAnywhere,Category = "Attack")
 	UAnimMontage* AttackAnimMontage = nullptr;
+
+	UPROPERTY(EditAnywhere,Category = "Attack")
+	UParticleSystem* CastingEmitterTemplate = nullptr;
 	
 	FTimerHandle TimerHandle_AbilityUsed;
 	
@@ -70,27 +98,13 @@ protected:
 	const UInputAction* Input_Interact;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Dash;
-
-public:	
-
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
-protected:
-	virtual void BeginPlay() override;
-	
-	void Move(const FInputActionInstance& Instance);
-	void LookMouse(const FInputActionValue& InputValue);
+	UPROPERTY(EditDefaultsOnly, Category = "Visual")
+	FColor HitFlashColor = FColor::Cyan;
 
-	virtual void PostInitializeComponents() override;
-	
-	void PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType);
-	void Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType);
-	void PerformJump();
+	UPROPERTY(EditDefaultsOnly,  Category = "Visual")
+	FName ColorParam;
 
-	UFUNCTION()
-	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
-
-
-
+	UPROPERTY(EditDefaultsOnly, Category = "Visual")
+	FName HitParam;
 };

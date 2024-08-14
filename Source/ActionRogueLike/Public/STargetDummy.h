@@ -19,13 +19,14 @@ public:
 	ASTargetDummy();
 
 protected:
+	UFUNCTION()
+	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
+	
+protected:
 	UPROPERTY(VisibleAnywhere)
 	USAttributesComponent* AttributeComp;
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* MeshComp;
-
-	UFUNCTION()
-	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
-
+	
 };

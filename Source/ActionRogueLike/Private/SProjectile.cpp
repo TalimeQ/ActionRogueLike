@@ -2,6 +2,7 @@
 
 #include "SProjectile.h"
 
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -15,6 +16,9 @@ ASProjectile::ASProjectile()
 	
 	ParticleSystemComp = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystemComp");
 	ParticleSystemComp->SetupAttachment(RootComponent);
+
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>("AudioComp");
+	AudioComponent->SetupAttachment(RootComponent);
 	
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
 	MovementComp->InitialSpeed = 1000.0f;
