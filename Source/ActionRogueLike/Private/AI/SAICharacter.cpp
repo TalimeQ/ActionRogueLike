@@ -10,6 +10,7 @@
 #include "Perception/PawnSensingComponent.h"
 #include "BrainComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SCreditsComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/SWorldUserWidget.h"
@@ -20,6 +21,7 @@ ASAICharacter::ASAICharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 	AttributesComponent = CreateDefaultSubobject<USAttributesComponent>("AttributesComp");
+	CreditsComponent = CreateDefaultSubobject<USCreditsComponent>("CreditsComp");
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 

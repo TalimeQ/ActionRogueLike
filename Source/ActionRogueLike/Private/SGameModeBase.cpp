@@ -6,7 +6,9 @@
 #include "EngineUtils.h"
 #include "SAttributesComponent.h"
 #include "SCharacter.h"
+#include "SPlayerState.h"
 #include "AI/SAICharacter.h"
+#include "Components/SCreditsComponent.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
 
@@ -101,6 +103,7 @@ void ASGameModeBase::RespawnPlayerElapsed(AController* Controller)
 void ASGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 {
 	ASCharacter* Player = Cast<ASCharacter>(Victim);
+	
 	if(Player)
 	{
 		FTimerHandle TimerHandleRespawnDelay;
@@ -110,6 +113,28 @@ void ASGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 
 		float RespawnDelay = 2.0f;
 		GetWorldTimerManager().SetTimer(TimerHandleRespawnDelay,Delegate,RespawnDelay,false);
+	}
+	else
+	{
+		USCreditsComponent* CreditsComponent = Victim->FindComponentByClass<USCreditsComponent>();
+		if(!CreditsComponent)
+		{
+			return;
+		}
+
+		ASCharacter* KillingPlayer = Cast<ASCharacter>(Killer);
+		if(!KillingPlayer)
+		{
+			return;
+		}
+
+		ASPlayerState* State =  KillingPlayer->GetPlayerState<ASPlayerState>();
+		if(!State)
+		{
+			return;
+		}
+
+		State->ApplyCreditsChange(CreditsComponent->GetCreditsAmount());
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("OnActorKilled: Victim: %s, Killer: %s"),*GetNameSafe(Victim),*GetNameSafe(Killer));

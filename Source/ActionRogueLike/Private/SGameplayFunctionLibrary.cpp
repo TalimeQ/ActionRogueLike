@@ -4,6 +4,8 @@
 #include "SGameplayFunctionLibrary.h"
 
 #include "SAttributesComponent.h"
+#include "SCharacter.h"
+#include "SPlayerState.h"
 #include "Camera/CameraComponent.h"
 
 FVector USGameplayFunctionLibrary::GetShootPoint(UCameraComponent* CameraComponent, AActor* TracingActor)
@@ -44,11 +46,32 @@ bool USGameplayFunctionLibrary::ApplyDirectionalDamage(AActor* DamageDealer, AAc
 		UPrimitiveComponent* Primitive = HitResult.GetComponent();
 		if(Primitive && Primitive->IsSimulatingPhysics(HitResult.BoneName))
 		{
-			Primitive->AddImpulseAtLocation(HitResult.ImpactNormal * -100000.0f,HitResult.ImpactPoint,HitResult.BoneName);
+			const float BigMagicNumber = 300000.0f;
+			FVector Direction = HitResult.TraceEnd - HitResult.TraceStart;
+			Direction.Normalize();
+			
+			Primitive->AddImpulseAtLocation(Direction *  BigMagicNumber,HitResult.ImpactPoint,HitResult.BoneName);
 			
 		}
 		return true;
 	}
 
 	return false;
+}
+
+void USGameplayFunctionLibrary::AddCreditsAmount(APawn* TriggeringPawn, int32 Amount)
+{
+	ASCharacter* Character = Cast<ASCharacter>(TriggeringPawn);
+	if(Character == nullptr )
+	{
+		return;
+	}
+
+	ASPlayerState* PlayerState = Character->GetPlayerState<ASPlayerState>();
+	if(!ensure(PlayerState))
+	{
+		return;
+	}
+
+	PlayerState->ApplyCreditsChange(Amount);
 }

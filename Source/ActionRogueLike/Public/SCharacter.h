@@ -13,6 +13,7 @@ class USInteractionComponent;
 class USAttributesComponent;
 class UAnimMontage;
 class UInputAction;
+class USActionComponent;
 struct FInputActionInstance;
 struct FInputActionValue;
 
@@ -36,38 +37,29 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 	
 	void Move(const FInputActionInstance& Instance);
 	void LookMouse(const FInputActionValue& InputValue);
-
-	virtual void PostInitializeComponents() override;
 	
-	void PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType);
-	void Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType);
+	void PerformAbility(const FInputActionValue& Value, FName ActionName);
 	void PerformJump();
+
+	void SprintStart();
+	void SprintStop();
 	
 	UFUNCTION()
 	void OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth, float Delta);
 
-	void TriggerHitFlash();
+	void TriggerHitFlash() const;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> MainProjectileClass;
+	FName MainAttackAction;
 	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> SecondProjectileClass;
+	FName SecondaryAttackAction;
 	UPROPERTY(EditAnywhere, Category = "Attack")
-	TSubclassOf<AActor> DashProjectileClass;
-
-	UPROPERTY(EditAnywhere,Category = "Attack")
-	UAnimMontage* AttackAnimMontage = nullptr;
-
-	UPROPERTY(EditAnywhere,Category = "Attack")
-	UParticleSystem* CastingEmitterTemplate = nullptr;
-	
-	FTimerHandle TimerHandle_AbilityUsed;
-	
-protected:
+	FName DashAction;
 
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* CameraComponent;
@@ -83,6 +75,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
 	USAttributesComponent* AttributeComponent;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
+	USActionComponent* ActionComponent;
 	
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Move;
@@ -98,6 +93,8 @@ protected:
 	const UInputAction* Input_Interact;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Dash;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_Sprint;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Visual")
 	FColor HitFlashColor = FColor::Cyan;

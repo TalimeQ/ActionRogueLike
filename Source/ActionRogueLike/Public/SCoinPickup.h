@@ -4,17 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "SInteractableActor.h"
-#include "SHealthPotion.generated.h"
+#include "SCoinPickup.generated.h"
 
 class USphereComponent;
-
+/**
+ * 
+ */
 UCLASS()
-class ACTIONROGUELIKE_API ASHealthPotion : public ASInteractableActor
+class ACTIONROGUELIKE_API ASCoinPickup : public ASInteractableActor
 {
 	GENERATED_BODY()
-	
+
 public:
-	ASHealthPotion();
+	ASCoinPickup();
 	
 protected:
 	virtual void TriggerPayload_Implementation(APawn* InstigatorPawn) override;
@@ -33,5 +35,5 @@ protected:
 	USphereComponent* SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	UStaticMeshComponent* PotionMesh = nullptr;
+	UStaticMeshComponent* CoinMesh= nullptr;
 };

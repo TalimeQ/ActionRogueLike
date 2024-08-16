@@ -3,16 +3,16 @@
 
 #include "SInteractableActor.h"
 
+#include "Components/SCreditsComponent.h"
+
 ASInteractableActor::ASInteractableActor()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
+	CreditsComponent = CreateDefaultSubobject<USCreditsComponent>("CreditsComp");
 }
 
 void ASInteractableActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ASInteractableActor::TriggerInteraction(APawn* InstigatorPawn)
@@ -26,6 +26,11 @@ void ASInteractableActor::OnReactivationFinished()
 {
 	bIsActive = true;
 	ShowActor();
+}
+
+bool ASInteractableActor::CanTriggerInteraction_Implementation(APawn* InstigatorPawn)
+{
+	return true;
 }
 
 void ASInteractableActor::TriggerPayload_Implementation(APawn* InstigatorPawn)
@@ -55,6 +60,11 @@ void ASInteractableActor::Interact_Implementation(APawn* InstigatorPawn)
 		return;
 	}
 
+	if(!CanTriggerInteraction(InstigatorPawn))
+	{
+		return;
+	}
+	
 	TriggerInteraction(InstigatorPawn);
 	
 	if(bReactivates)

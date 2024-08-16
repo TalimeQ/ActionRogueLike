@@ -8,6 +8,7 @@
 #include "SGameplayFunctionLibrary.h"
 #include "SInteractionComponent.h"
 #include "SProjectile.h"
+#include "Actions/SActionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -28,6 +29,7 @@ ASCharacter::ASCharacter()
 	InteractionComp = CreateDefaultSubobject<USInteractionComponent>("InteractionComp");
 
 	AttributeComponent = CreateDefaultSubobject<USAttributesComponent>("Attributes Component");
+	ActionComponent = CreateDefaultSubobject<USActionComponent>("Action Component");
 	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
@@ -85,11 +87,13 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComp->BindAction(Input_LookMouse,ETriggerEvent::Triggered,this,&ASCharacter::LookMouse);
 
 	// TODO :: Potentially we should put projectiles into second component atm, but there is queued ability comp somewhere in course so lets do not do this :)
-	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,MainProjectileClass);
-	InputComp->BindAction(Input_SecondaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,SecondProjectileClass);
-	InputComp->BindAction(Input_Dash,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,DashProjectileClass);
+	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,MainAttackAction);
+	InputComp->BindAction(Input_SecondaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,SecondaryAttackAction);
+	InputComp->BindAction(Input_Dash,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,DashAction);
 	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::PerformJump);
 	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
+	InputComp->BindAction(Input_Sprint,ETriggerEvent::Started,this,&ASCharacter::SprintStart);
+	InputComp->BindAction(Input_Sprint,ETriggerEvent::Completed,this,&ASCharacter::SprintStop);
 }
 
 void ASCharacter::HealSelf(float Amount /* = 100 */)
@@ -116,36 +120,9 @@ void ASCharacter::PostInitializeComponents()
 	AttributeComponent->OnHealthChanged.AddDynamic(this,&ASCharacter::OnHealthChanged);
 }
 
-void ASCharacter::PerformAbility(const FInputActionValue& Value, TSubclassOf<AActor> ProjectileType)
+void ASCharacter::PerformAbility(const FInputActionValue& Value, FName ActionName)
 {
-	PlayAnimMontage(AttackAnimMontage);
-
-	if(ensure(CastingEmitterTemplate))
-	{
-		UGameplayStatics::SpawnEmitterAttached(CastingEmitterTemplate,GetMesh(),"Muzzle_01");
-	}
-	
-	FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &ASCharacter::Attack_TimeElapsed,ProjectileType);
-	GetWorldTimerManager().SetTimer(TimerHandle_AbilityUsed,TimerDelegate,0.2,false);
-}
-
-
-
-void ASCharacter::Attack_TimeElapsed(TSubclassOf<AActor> ProjectileType)
-{
-    if(ensureAlways(ProjectileType))
-    {
-        FVector HandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-        FVector ImpactPoint = USGameplayFunctionLibrary::GetShootPoint(CameraComponent,this);
-        FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(HandLocation,ImpactPoint);
-        FTransform SpawnTM = FTransform(SpawnRotation,HandLocation);
-        
-        FActorSpawnParameters SpawnParams;
-        SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-        SpawnParams.Instigator = this;
-        
-        GetWorld()->SpawnActor<AActor>(ProjectileType,SpawnTM,SpawnParams);
-	}
+	ActionComponent->StartActionByName(this,ActionName);
 }
 
 void ASCharacter::PerformJump()
@@ -153,8 +130,18 @@ void ASCharacter::PerformJump()
 	Jump();
 }
 
+void ASCharacter::SprintStart()
+{
+	ActionComponent->StartActionByName(this,"sprint");
+}
+
+void ASCharacter::SprintStop()
+{
+	ActionComponent->StopActionByName(this,"sprint");
+}
+
 void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributesComponent* OwningComp, float NewHealth,
-	float Delta)
+                                  float Delta)
 {
 	if(Delta < 0.0f && NewHealth >= 0.0f)
 	{
@@ -168,7 +155,7 @@ void ASCharacter::OnHealthChanged(AActor* InstigatorActor, USAttributesComponent
 	}
 }
 
-void ASCharacter::TriggerHitFlash()
+void ASCharacter::TriggerHitFlash() const
 {
 	GetMesh()->SetVectorParameterValueOnMaterials(ColorParam,UKismetMathLibrary::Conv_LinearColorToVector(HitFlashColor));
 	GetMesh()->SetScalarParameterValueOnMaterials(HitParam,GetWorld()->GetTimeSeconds());

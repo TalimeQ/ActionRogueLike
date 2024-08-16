@@ -44,5 +44,4 @@ protected:
 	float TeleportTime = 0.2f;
 	float TriggerTime = 0.2f;
 
-
 };

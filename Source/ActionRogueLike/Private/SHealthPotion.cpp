@@ -4,6 +4,10 @@
 #include "SHealthPotion.h"
 
 #include "SAttributesComponent.h"
+#include "SCharacter.h"
+#include "SGameplayFunctionLibrary.h"
+#include "SPlayerState.h"
+#include "Components/SCreditsComponent.h"
 #include "Components/SphereComponent.h"
 
 ASHealthPotion::ASHealthPotion() : Super()
@@ -22,6 +26,7 @@ void ASHealthPotion::TriggerPayload_Implementation(APawn* InstigatorPawn)
 	if(ensure(AttributesComp))
 	{
 		AttributesComp->ApplyHealthChange(this, HealthRestored);
+		USGameplayFunctionLibrary::AddCreditsAmount(InstigatorPawn,CreditsComponent->GetCreditsAmount());
 	}
 }
 
@@ -34,4 +39,23 @@ void ASHealthPotion::HideActor_Implementation()
 {
 	PotionMesh->SetHiddenInGame(true);
 }
+
+bool ASHealthPotion::CanTriggerInteraction_Implementation(APawn* InstigatorPawn)
+{
+	ASCharacter* Character = Cast<ASCharacter>(InstigatorPawn);
+	if(Character == nullptr )
+	{
+		return false;
+	}
+
+	ASPlayerState* PlayerState = Character->GetPlayerState<ASPlayerState>();
+	if(!ensure(PlayerState))
+	{
+		return false;
+	}
+	
+	int32 CreditsChange = CreditsComponent->GetCreditsAmount();
+	return PlayerState->CanAffordActivation(CreditsChange);
+}
+
 

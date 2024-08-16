@@ -7,6 +7,8 @@
 #include "GameFramework/Actor.h"
 #include "SInteractableActor.generated.h"
 
+class USCreditsComponent;
+
 UCLASS()
 class ACTIONROGUELIKE_API ASInteractableActor : public AActor, public ISGameplayInterface
 {
@@ -16,7 +18,7 @@ public:
 	ASInteractableActor();
 
 	virtual void Tick(float DeltaTime) override;
-
+	
 	virtual void Interact_Implementation(APawn* InstigatorPawn) override;
 	
 protected:
@@ -35,8 +37,16 @@ protected:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void TriggerPayload(APawn* InstigatorPawn);
+
+	UFUNCTION(BlueprintNativeEvent)
+	bool CanTriggerInteraction(APawn* InstigatorPawn);
 	
 protected:
+
+	// TODO :: Potentially move it to subclass if we encounter a thing that does not require/award credits
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USCreditsComponent* CreditsComponent = nullptr;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Interactable")
 	bool bReactivates = true;
 

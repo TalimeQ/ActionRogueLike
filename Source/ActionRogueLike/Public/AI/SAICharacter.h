@@ -11,6 +11,7 @@ class UPawnSensingComponent;
 class USAttributesComponent;
 class UUserWidget;
 class USWorldUserWidget;
+class USCreditsComponent;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASAICharacter : public ACharacter , public IAttributesInterface
@@ -45,6 +46,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Componnets")
 	USAttributesComponent* AttributesComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USCreditsComponent* CreditsComponent = nullptr;
 
 	UPROPERTY(EditDefaultsOnly,  Category = "Visual")
 	FName ColorParam;
