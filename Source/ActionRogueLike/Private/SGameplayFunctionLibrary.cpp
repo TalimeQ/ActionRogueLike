@@ -33,7 +33,7 @@ bool USGameplayFunctionLibrary::ApplyDamage(AActor* DamageDealer, AActor* Target
 	USAttributesComponent* AttributesComp = USAttributesComponent::GetAttributes(TargetActor);
 	if(AttributesComp)
 	{
-		return AttributesComp->ApplyHealthChange(DamageDealer,DamageAmount);
+		return AttributesComp->ApplyHealthChange(DamageDealer,-DamageAmount);
 	}
 	return false;
 }

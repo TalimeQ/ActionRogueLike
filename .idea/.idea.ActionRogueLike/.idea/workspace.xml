@@ -23,6 +23,8 @@
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SAIController.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SBTService_CheckAttackRange.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/AI/SBTService_CheckHealth.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/Actions/Effects/SActionEffect.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/Actions/Effects/SThornsEffect.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/Actions/SAction.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/Actions/SActionComponent.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Private/Actions/SActionProjectileAttack.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -50,6 +52,8 @@
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTService_CheckAttackRange.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTService_CheckHealth.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/AI/SBTTask_RangedAttack.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/Actions/Effects/SActionEffect.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/Actions/Effects/SThornsEffect.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/Actions/SAction.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/Actions/SActionComponent.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/ActionRogueLike/Public/Actions/SActionProjectileAttack.h" root0="FORCE_HIGHLIGHTING" />
@@ -290,6 +294,11 @@
       <workItem from="1723724379560" duration="3401000" />
       <workItem from="1723736651781" duration="3980000" />
       <workItem from="1723800202927" duration="4375000" />
+      <workItem from="1723821486532" duration="3526000" />
+      <workItem from="1723829011296" duration="1533000" />
+      <workItem from="1723833447947" duration="4398000" />
+      <workItem from="1724014489790" duration="8103000" />
+      <workItem from="1724101250418" duration="3258000" />
     </task>
     <servers />
   </component>

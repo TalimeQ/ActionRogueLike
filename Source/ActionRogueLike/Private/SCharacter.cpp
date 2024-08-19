@@ -94,6 +94,7 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
 	InputComp->BindAction(Input_Sprint,ETriggerEvent::Started,this,&ASCharacter::SprintStart);
 	InputComp->BindAction(Input_Sprint,ETriggerEvent::Completed,this,&ASCharacter::SprintStop);
+	InputComp->BindAction(Input_Parry,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,ParryAction);
 }
 
 void ASCharacter::HealSelf(float Amount /* = 100 */)

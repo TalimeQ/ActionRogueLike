@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "SProjectile.h"
 #include "GameFramework/Actor.h"
 #include "SMagicProjectile.generated.h"
@@ -11,6 +12,7 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class USActionEffect;
 
 UCLASS()
 class ACTIONROGUELIKE_API ASMagicProjectile : public ASProjectile
@@ -38,8 +40,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "MagicProjectile")
 	UParticleSystem* ImpactEmitter = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	TSubclassOf<USActionEffect> BurningActionClass;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "MagicProjectile")
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DamageDealt = 20.0f;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	FGameplayTag ParryTag;
 };

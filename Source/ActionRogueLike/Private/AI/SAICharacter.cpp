@@ -9,6 +9,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/PawnSensingComponent.h"
 #include "BrainComponent.h"
+#include "Actions/SActionComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SCreditsComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -21,7 +22,7 @@ ASAICharacter::ASAICharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensingComp");
 	AttributesComponent = CreateDefaultSubobject<USAttributesComponent>("AttributesComp");
-	CreditsComponent = CreateDefaultSubobject<USCreditsComponent>("CreditsComp");
+	ActionComponent = CreateDefaultSubobject<USActionComponent>("ActionComponent");
 
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 

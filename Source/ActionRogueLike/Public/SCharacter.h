@@ -54,12 +54,14 @@ protected:
 	void TriggerHitFlash() const;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Attack")
+	UPROPERTY(EditAnywhere, Category = "Action")
 	FName MainAttackAction;
-	UPROPERTY(EditAnywhere, Category = "Attack")
+	UPROPERTY(EditAnywhere, Category = "Action")
 	FName SecondaryAttackAction;
-	UPROPERTY(EditAnywhere, Category = "Attack")
+	UPROPERTY(EditAnywhere, Category = "Action")
 	FName DashAction;
+	UPROPERTY(EditAnywhere, Category = "Action")
+	FName ParryAction;
 
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* CameraComponent;
@@ -95,6 +97,8 @@ protected:
 	const UInputAction* Input_Dash;
 	UPROPERTY(EditDefaultsOnly)
 	const UInputAction* Input_Sprint;
+	UPROPERTY(EditDefaultsOnly)
+	const UInputAction* Input_Parry;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Visual")
 	FColor HitFlashColor = FColor::Cyan;
@@ -104,4 +108,5 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Visual")
 	FName HitParam;
+
 };

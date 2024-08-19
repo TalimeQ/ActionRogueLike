@@ -5,7 +5,7 @@
 
 #include "Actions/SAction.h"
 
-void USActionComponent::AddAction(TSubclassOf<USAction> ActionClass)
+void USActionComponent::AddAction(AActor* Instigator, TSubclassOf<USAction> ActionClass)
 {
 	if(!ensure(ActionClass))
 	{
@@ -16,7 +16,22 @@ void USActionComponent::AddAction(TSubclassOf<USAction> ActionClass)
 	if(ensure(NewAction))
 	{
 		Actions.Add(NewAction);
+
+		if(NewAction->bAutoStart && ensure(NewAction->CanStart(Instigator)))
+		{
+			NewAction->StartAction(Instigator);
+		}
 	}
+}
+
+void USActionComponent::RemoveAction(USActionEffect* RemovedAction)
+{
+	if(!ensure(RemovedAction && !RemovedAction->IsRunning()))
+	{
+		return;
+	}
+	
+	Actions.Remove(RemovedAction);
 }
 
 bool USActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
@@ -25,6 +40,13 @@ bool USActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 	{
 		if(Action && Action->GetActionName() ==  ActionName)
 		{
+		    if(!Action->CanStart(Instigator))
+		    {
+		    	FString DebugMsg = FString::Printf(TEXT("Failed to run %s"), *ActionName.ToString());
+		    	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::White,DebugMsg);
+			    continue;
+		    }
+		
 			Action->StartAction(Instigator);
 			return true;
 		}
@@ -39,8 +61,11 @@ bool USActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 	{
 		if(Action && Action->GetActionName() ==  ActionName)
 		{
-			Action->StopAction(Instigator);
-			return true;
+			if(Action->IsRunning())
+			{
+				Action->StopAction(Instigator);
+				return true;
+			}
 		}
 	}
 	return false;
@@ -56,12 +81,15 @@ void USActionComponent::BeginPlay()
 	Super::BeginPlay();
 	for(TSubclassOf<USAction> ActionClass : DefaultActions)
 	{
-		AddAction(ActionClass);
+		AddAction(GetOwner(),ActionClass);
 	}
 }
 
 void USActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	FString DebugMsg = GetNameSafe(GetOwner()) + " : " + ActiveGameplayTags.ToStringSimple();
+	GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White,DebugMsg);
 }
 
