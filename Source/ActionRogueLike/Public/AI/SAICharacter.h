@@ -50,6 +50,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USActionComponent* ActionComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
+	TSubclassOf<USWorldUserWidget> SpottedWidgetClass;
+
+	UPROPERTY()
+	TObjectPtr<USWorldUserWidget> SpottedWidgetInstance;
+
 	UPROPERTY(EditDefaultsOnly,  Category = "Visual")
 	FName ColorParam;
 
@@ -64,4 +70,7 @@ protected:
 
 	UPROPERTY()
 	USWorldUserWidget* ActiveHealthBar = nullptr;
+
+private:
+	TWeakObjectPtr<AActor> CachedTarget;
 };

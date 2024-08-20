@@ -4,19 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "SInteractableActor.h"
-#include "SCoinPickup.generated.h"
+#include "SPowerUpPickup.generated.h"
 
 class USphereComponent;
-/**
- * 
- */
+class USAction;
+
 UCLASS()
-class ACTIONROGUELIKE_API ASCoinPickup : public ASInteractableActor
+class ACTIONROGUELIKE_API ASPowerUpPickup : public ASInteractableActor
 {
 	GENERATED_BODY()
-
 public:
-	ASCoinPickup();
+	ASPowerUpPickup();
 	
 protected:
 	virtual void TriggerPayload_Implementation(APawn* InstigatorPawn) override;
@@ -28,10 +26,12 @@ protected:
 	virtual bool CanTriggerInteraction_Implementation(APawn* InstigatorPawn) override;
 	
 protected:
+	UPROPERTY(EditAnywhere, Category = "Power Up")
+	TSubclassOf<USAction> GrantedAction;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
 	USphereComponent* SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	UStaticMeshComponent* CoinMesh= nullptr;
+	UStaticMeshComponent* PowerupMesh = nullptr;
 };

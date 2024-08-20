@@ -30,5 +30,5 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, meta = (ClampMax = 1.0f, ClampMin = 0.0f,UIMax = 1.0f, UIMin = 0.0f))
-	float PercentReflected = 0.25f;
+	float PercentReflected = 0.5f;
 };

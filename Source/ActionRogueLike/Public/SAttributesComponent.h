@@ -8,6 +8,7 @@
 #include "SAttributesComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnHealthChanged,AActor*, InstigatorActor,USAttributesComponent*,OwningComp,float,NewHealth,float, Delta);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnRageChanged,USAttributesComponent*,OwningComp,float,NewRage,float, Delta);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,25 +31,40 @@ public:
 	bool ApplyHealthChange(AActor* InstigatorActor, float Delta);
 
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void ApplyRageChange( float Delta);
+	
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool Kill(AActor* InstigatorActor);
 
 	UFUNCTION(BlueprintCallable, Category = "Attributes")
 	bool IsAlive() const;
-
-
+	
 	float GetHealth() const;
 	float GetHealthMax() const;
 
+	float GetRage() const;
+	float GetRageMax() const;
 
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnRageChanged OnRageChanged;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
 	float Health = 0;
-
-	//HealthMax,Stamina, Strength etc
+	
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
 	float MaxHealth = 0;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
+	float HealthToRageRatio = 0.25f;
+	
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
+	float Rage = 0;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
+	float RageMax = 0;
 };

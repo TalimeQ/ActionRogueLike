@@ -10,6 +10,10 @@ static TAutoConsoleVariable<float> CVarGlobalDamageMulti(TEXT("su.DamageMultipli
 USAttributesComponent::USAttributesComponent()
 {
 	Health = 100.0f;
+	MaxHealth = Health;
+
+	Rage = 0.0f;
+	RageMax = 25.0f;
 }
 
 bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
@@ -33,6 +37,12 @@ bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	float ActualDelta = Health - OldHealth;
 	OnHealthChanged.Broadcast(InstigatorActor,this,Health,ActualDelta);
 
+	if(ActualDelta < 0.0f)
+	{
+		ApplyRageChange(FMath::Abs(HealthToRageRatio * ActualDelta));
+	}
+	
+	
 	// Died
 	if(ActualDelta < 0.0f && Health == 0.0f)
 	{
@@ -64,6 +74,26 @@ float USAttributesComponent::GetHealth() const
 float USAttributesComponent::GetHealthMax() const
 {
 	return MaxHealth;
+}
+
+float USAttributesComponent::GetRage() const
+{
+	return Rage;
+}
+
+float USAttributesComponent::GetRageMax() const
+{
+	return RageMax;
+}
+
+// Duplicates some code from 
+void USAttributesComponent::ApplyRageChange(float Delta)
+{
+	float OldRage = Rage;
+	Rage = FMath::Clamp(Rage + Delta,0.0f,RageMax);
+
+	float ActualDelta = Rage - OldRage;
+	OnRageChanged.Broadcast(this,Rage,ActualDelta);
 }
 
 USAttributesComponent* USAttributesComponent::GetAttributes(AActor* FromActor)

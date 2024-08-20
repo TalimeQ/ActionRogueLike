@@ -58,7 +58,7 @@ void ASMagicProjectile::OnActorOverlap(UPrimitiveComponent* OverlappedComponent,
 			TriggerImpactEffects();
 			Destroy();
 
-			if(ActionComponent)
+			if(ActionComponent && BurningActionClass != nullptr)
 			{
 				ActionComponent->AddAction(GetInstigator(),BurningActionClass);
 			}

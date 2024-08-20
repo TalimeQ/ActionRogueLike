@@ -61,7 +61,19 @@ bool ASAICharacter::IsAlive()
 void ASAICharacter::OnPawnSensed(APawn* Pawn)
 {
 	SetTargetActor(Pawn);
-	DrawDebugString(GetWorld(),GetActorLocation(),"PLAYER SPOTTED",nullptr, FColor::Green);
+	if(CachedTarget == nullptr)
+	{
+		CachedTarget = Pawn;
+		if(ensure(SpottedWidgetClass))
+		{
+			SpottedWidgetInstance = CreateWidget<USWorldUserWidget>(GetWorld(),SpottedWidgetClass);
+			SpottedWidgetInstance->SetAttachedActor(this);
+			if(!SpottedWidgetInstance->IsInViewport())
+			{
+				SpottedWidgetInstance->AddToViewport();
+			}
+		}
+	}
 }
 
 USAttributesComponent* ASAICharacter::GetAttributesComponent_Implementation()
@@ -71,8 +83,6 @@ USAttributesComponent* ASAICharacter::GetAttributesComponent_Implementation()
 
 void ASAICharacter::TriggerHitFlash()
 {
-
-
 	GetMesh()->SetVectorParameterValueOnMaterials(ColorParam,UKismetMathLibrary::Conv_LinearColorToVector(HitFlashColor));
 	GetMesh()->SetScalarParameterValueOnMaterials(HitParam,GetWorld()->GetTimeSeconds());
 }
