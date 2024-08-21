@@ -23,6 +23,10 @@ public:
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+protected:
+	UFUNCTION(Server,Reliable)
+	void ServerInteract(AActor* InteractionTarget);
+	
 private:
 	void HandleInteractionWidget();
 

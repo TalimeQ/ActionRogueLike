@@ -24,6 +24,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 public:
 	UPROPERTY(EditAnywhere)
 	float TargetPitch = 0.0f;
@@ -38,5 +40,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> GoldMesh;
+
+	UPROPERTY(ReplicatedUsing ="OnRep_IsOpened", BlueprintReadOnly)
+	bool bIsOpened = false;
+
+	UFUNCTION()
+	void OnRep_IsOpened();
 
 };

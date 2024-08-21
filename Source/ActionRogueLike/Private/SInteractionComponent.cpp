@@ -20,14 +20,19 @@ USInteractionComponent::USInteractionComponent()
 
 void USInteractionComponent::PrimaryInteract()
 {
+	ServerInteract(FocusedActor.Get());
+}
+
+void USInteractionComponent::ServerInteract_Implementation(AActor* InteractionTarget)
+{
 	APawn* AsPawn = Cast<APawn>(GetOwner());
-	if(FocusedActor == nullptr)
+	if(InteractionTarget == nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, "No Focus Actor to Interact");
 		return;
 	}
 	
-	ISGameplayInterface::Execute_Interact(FocusedActor.Get(),AsPawn);
+	ISGameplayInterface::Execute_Interact(InteractionTarget,AsPawn);
 }
 
 void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -35,9 +40,12 @@ void USInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FindBestInteractable();
+	APawn* OwnerAsPawn = Cast<APawn>(GetOwner());
+	if(OwnerAsPawn->IsLocallyControlled())
+	{
+		FindBestInteractable();
+	}
 }
-
 
 void USInteractionComponent::HandleInteractionWidget()
 {
@@ -98,7 +106,7 @@ void USInteractionComponent::FindBestInteractable()
 		{
 			if(DrawDebug)
 			{
-				DrawDebugSphere(GetWorld(),Hit.ImpactPoint,TraceRadius,32,DebugLineColor,false,2.0f);
+				DrawDebugSphere(GetWorld(),Hit.ImpactPoint,TraceRadius,32,DebugLineColor,false,0.0f);
 			}
 			
 			if(HitActor->Implements<USGameplayInterface>())
@@ -113,7 +121,7 @@ void USInteractionComponent::FindBestInteractable()
 	
 	if(DrawDebug)
 	{
-		DrawDebugLine(GetWorld(),EyeLocation,End,DebugLineColor,false,2.0f,0,2.0f);
+		DrawDebugLine(GetWorld(),EyeLocation,End,DebugLineColor,false,2.0f,0,0.0f);
 	}
 }
 
