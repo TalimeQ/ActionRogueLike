@@ -22,5 +22,5 @@ public:
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	UBehaviorTree* BehaviourTree;
+	TObjectPtr<UBehaviorTree> BehaviourTree;
 };

@@ -8,9 +8,9 @@
 #include "SCharacter.h"
 #include "SPlayerState.h"
 #include "AI/SAICharacter.h"
-#include "Components/SCreditsComponent.h"
 #include "EnvironmentQuery/EnvQueryTypes.h"
 #include "EnvironmentQuery/EnvQueryManager.h"
+#include "Interfaces/SCreditsInterface.h"
 
 static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("su.SpawnBots"),true,TEXT("Enable spawning bots via timer"), ECVF_Cheat);
 
@@ -116,12 +116,6 @@ void ASGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 	}
 	else
 	{
-		USCreditsComponent* CreditsComponent = Victim->FindComponentByClass<USCreditsComponent>();
-		if(!CreditsComponent)
-		{
-			return;
-		}
-
 		ASCharacter* KillingPlayer = Cast<ASCharacter>(Killer);
 		if(!KillingPlayer)
 		{
@@ -134,7 +128,10 @@ void ASGameModeBase::OnActorKilled(AActor* Victim, AActor* Killer)
 			return;
 		}
 
-		State->ApplyCreditsChange(CreditsComponent->GetCreditsAmount());
+		if(Victim->Implements<USCreditsInterface>())
+		{
+			State->ApplyCreditsChange(ISCreditsInterface::Execute_GetCreditsReward(Victim));
+		}
 	}
 
 	UE_LOG(LogTemp, Log, TEXT("OnActorKilled: Victim: %s, Killer: %s"),*GetNameSafe(Victim),*GetNameSafe(Killer));

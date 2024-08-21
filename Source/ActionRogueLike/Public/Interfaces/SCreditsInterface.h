@@ -20,8 +20,5 @@ class ACTIONROGUELIKE_API ISCreditsInterface
 public:
 
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
-	int32 GetCreditsChange();
-	
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
-	bool AwardsCredits();
+	int32 GetCreditsReward() const;
 };

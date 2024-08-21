@@ -24,9 +24,9 @@ protected:
 	
 protected:
 	UPROPERTY(VisibleAnywhere)
-	USAttributesComponent* AttributeComp;
+	TObjectPtr<USAttributesComponent> AttributeComp;
 
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* MeshComp;
+	TObjectPtr<UStaticMeshComponent> MeshComp;
 	
 };

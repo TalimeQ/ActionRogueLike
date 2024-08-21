@@ -3,11 +3,9 @@
 
 #include "SInteractableActor.h"
 
-#include "Components/SCreditsComponent.h"
-
-ASInteractableActor::ASInteractableActor()
+ASInteractableActor::ASInteractableActor() : Super()
 {
-	CreditsComponent = CreateDefaultSubobject<USCreditsComponent>("CreditsComp");
+
 }
 
 void ASInteractableActor::BeginPlay()

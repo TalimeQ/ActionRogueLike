@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTDecorator.h"
 #include "SBTDecorator_Cooldown.generated.h"
@@ -12,6 +11,11 @@ struct FSBTCooldownDecoratorMemory
 	uint8 bRequestedRestart : 1;
 };
 
+/*
+ *	A github code fix for Cooldown Decorator,
+ *	This will start cooldown after trigger instead of after starting the BT
+ *	(which would result in enemies not healing)
+ */
 UCLASS(HideCategories=(Condition))
 class ACTIONROGUELIKE_API USBTDecorator_Cooldown : public UBTDecorator
 {

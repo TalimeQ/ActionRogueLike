@@ -11,7 +11,6 @@
 #include "BrainComponent.h"
 #include "Actions/SActionComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/SCreditsComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "UI/SWorldUserWidget.h"
@@ -76,7 +75,7 @@ void ASAICharacter::OnPawnSensed(APawn* Pawn)
 	}
 }
 
-USAttributesComponent* ASAICharacter::GetAttributesComponent_Implementation()
+USAttributesComponent* ASAICharacter::GetAttributesComponent_Implementation() const
 {
 	return AttributesComponent;
 }

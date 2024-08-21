@@ -6,7 +6,6 @@
 #include "SCharacter.h"
 #include "SGameplayFunctionLibrary.h"
 #include "SPlayerState.h"
-#include "Components/SCreditsComponent.h"
 #include "Components/SphereComponent.h"
 
 ASCoinPickup::ASCoinPickup() : Super()
@@ -16,11 +15,13 @@ ASCoinPickup::ASCoinPickup() : Super()
 	
 	CoinMesh = CreateDefaultSubobject<UStaticMeshComponent>("PotionMesh");
 	CoinMesh->SetupAttachment(RootComponent);
+
+	CoinsRewarded = 20;
 }
 
 void ASCoinPickup::TriggerPayload_Implementation(APawn* InstigatorPawn)
 {
-	USGameplayFunctionLibrary::AddCreditsAmount(InstigatorPawn,CreditsComponent->GetCreditsAmount());
+	USGameplayFunctionLibrary::AddCreditsAmount(InstigatorPawn,CoinsRewarded);
 }
 
 void ASCoinPickup::ShowActor_Implementation()

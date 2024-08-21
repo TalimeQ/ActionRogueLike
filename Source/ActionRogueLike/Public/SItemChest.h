@@ -31,12 +31,12 @@ public:
 protected:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	UStaticMeshComponent* LidMesh;
+	TObjectPtr<UStaticMeshComponent> LidMesh;
 	
 	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* BaseMesh;
+	TObjectPtr<UStaticMeshComponent> BaseMesh;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	UStaticMeshComponent* GoldMesh;
+	TObjectPtr<UStaticMeshComponent> GoldMesh;
 
 };

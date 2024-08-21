@@ -30,8 +30,11 @@ protected:
 protected:
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	USphereComponent* SphereComp = nullptr;
+	TObjectPtr<USphereComponent> SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	UStaticMeshComponent* CoinMesh= nullptr;
+	TObjectPtr<UStaticMeshComponent> CoinMesh= nullptr;
+
+	UPROPERTY(EditAnywhere,  Category = "Components")
+	int32 CoinsRewarded = 20;
 };

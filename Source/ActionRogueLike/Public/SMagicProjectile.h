@@ -36,10 +36,10 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "MagicProjectile")
-	USoundBase* ImpactSound = nullptr;
+	TObjectPtr<USoundBase> ImpactSound = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "MagicProjectile")
-	UParticleSystem* ImpactEmitter = nullptr;
+	TObjectPtr<UParticleSystem> ImpactEmitter = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TSubclassOf<USActionEffect> BurningActionClass;

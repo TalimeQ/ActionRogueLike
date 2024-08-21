@@ -1,8 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Actions/Effects/SThornsEffect.h"
-
 #include "SAttributesComponent.h"
 #include "Actions/SActionComponent.h"
 
@@ -41,7 +37,7 @@ void USThornsEffect::ReflectDamage(AActor* InstigatorActor, USAttributesComponen
 		return;
 	}
 
-	float ReturnedDamage =  FMath::RoundToInt32( Delta * PercentReflected);
+	float ReturnedDamage =  FMath::RoundToInt32(Delta * PercentReflected);
 
 	auto* DamageDealerAttributes = USAttributesComponent::GetAttributes(InstigatorActor);
 	DamageDealerAttributes->ApplyHealthChange(OwnerActor,ReturnedDamage);
@@ -50,7 +46,5 @@ void USThornsEffect::ReflectDamage(AActor* InstigatorActor, USAttributesComponen
 void USThornsEffect::ExecutePeriodicEffect_Implementation(AActor* Instigator)
 {
 	Super::ExecutePeriodicEffect_Implementation(Instigator);
-	
-	// Ensure this is infinite
 	Duration = UE_MAX_FLT;
 }

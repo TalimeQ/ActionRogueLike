@@ -26,14 +26,11 @@ bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	if(Delta < 0.0f)
 	{
 		float DamageMultiplier = CVarGlobalDamageMulti.GetValueOnGameThread();
-		
 		Delta *= DamageMultiplier;
 	}
 	
 	float OldHealth = Health;
-	
 	Health = FMath::Clamp(Health + Delta,0.0f,MaxHealth);
-
 	float ActualDelta = Health - OldHealth;
 	OnHealthChanged.Broadcast(InstigatorActor,this,Health,ActualDelta);
 
@@ -42,9 +39,7 @@ bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 		ApplyRageChange(FMath::Abs(HealthToRageRatio * ActualDelta));
 	}
 	
-	
-	// Died
-	if(ActualDelta < 0.0f && Health == 0.0f)
+	if(ActualDelta < 0.0f && FMath::IsNearlyZero(Health))
 	{
 		ASGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASGameModeBase>();
 		if(GameMode)

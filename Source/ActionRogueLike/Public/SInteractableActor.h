@@ -42,10 +42,6 @@ protected:
 	bool CanTriggerInteraction(APawn* InstigatorPawn);
 	
 protected:
-
-	// TODO :: Potentially move it to subclass if we encounter a thing that does not require/award credits
-	UPROPERTY(VisibleAnywhere, Category = "Components")
-	USCreditsComponent* CreditsComponent = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Interactable")
 	bool bReactivates = true;

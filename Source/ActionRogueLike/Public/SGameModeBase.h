@@ -44,11 +44,11 @@ protected:
 	float SpawnTimerInterval = 0.0f;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	UEnvQuery* SpawnBotQuery = nullptr;
+	TObjectPtr<UEnvQuery> SpawnBotQuery = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TSubclassOf<AActor> MinionClass = nullptr;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	UCurveFloat* DifficultyCurve = nullptr;
+	TObjectPtr<UCurveFloat> DifficultyCurve = nullptr;
 };

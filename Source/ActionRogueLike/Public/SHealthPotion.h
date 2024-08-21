@@ -30,8 +30,11 @@ protected:
 	float HealthRestored = 50.0f;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	USphereComponent* SphereComp = nullptr;
+	TObjectPtr<USphereComponent> SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	UStaticMeshComponent* PotionMesh = nullptr;
+	TObjectPtr<UStaticMeshComponent> PotionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere,  Category = "Components")
+	int32 CreditsCost = -20;
 };

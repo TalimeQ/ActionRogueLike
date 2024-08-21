@@ -33,10 +33,10 @@ protected:
 protected:
 
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* StaticMesh = nullptr;
+	TObjectPtr<UStaticMeshComponent> StaticMesh = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	URadialForceComponent* ForceComp = nullptr;
+	TObjectPtr<URadialForceComponent> ForceComp = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	float Damage = 30.0f;

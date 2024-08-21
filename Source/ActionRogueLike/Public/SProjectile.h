@@ -28,14 +28,14 @@ protected:
 	
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	USphereComponent* SphereComp = nullptr;
+	TObjectPtr<USphereComponent> SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	UProjectileMovementComponent* MovementComp = nullptr;
+	TObjectPtr<UProjectileMovementComponent> MovementComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* ParticleSystemComp = nullptr;
+	TObjectPtr<UParticleSystemComponent> ParticleSystemComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-	UAudioComponent* AudioComponent = nullptr;
+	TObjectPtr<UAudioComponent> AudioComponent = nullptr;
 };

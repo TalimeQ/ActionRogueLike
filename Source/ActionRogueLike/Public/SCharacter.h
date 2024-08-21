@@ -64,42 +64,43 @@ protected:
 	FName ParryAction;
 
 	UPROPERTY(EditDefaultsOnly)
-	UCameraComponent* CameraComponent;
+	TObjectPtr<UCameraComponent> CameraComponent;
 
 	UPROPERTY(EditDefaultsOnly)
-	USpringArmComponent* SpringArmComponent;
+	TObjectPtr<USpringArmComponent> SpringArmComponent;
 
 	UPROPERTY(EditDefaultsOnly)
-	USInteractionComponent* InteractionComp;
+	TObjectPtr<USInteractionComponent> InteractionComp;
 	
 	UPROPERTY(EditDefaultsOnly)
-	const UInputMappingContext* DefaultMappingContext;
+	const TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
-	USAttributesComponent* AttributeComponent;
+	TObjectPtr<USAttributesComponent> AttributeComponent;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
-	USActionComponent* ActionComponent;
+	TObjectPtr<USActionComponent> ActionComponent;
 	
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Move;
+	const TObjectPtr<UInputAction> Input_Move;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_LookMouse;
+	const TObjectPtr<UInputAction> Input_LookMouse;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_PrimaryAttack;
+	const TObjectPtr<UInputAction> Input_PrimaryAttack;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_SecondaryAttack;
+	const TObjectPtr<UInputAction> Input_SecondaryAttack;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Jump;
+	const TObjectPtr<UInputAction> Input_Jump;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Interact;
+	const TObjectPtr<UInputAction> Input_Interact;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Dash;
+	const TObjectPtr<UInputAction> Input_Dash;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Sprint;
+	const TObjectPtr<UInputAction> Input_Sprint;
 	UPROPERTY(EditDefaultsOnly)
-	const UInputAction* Input_Parry;
-	
+	const TObjectPtr<UInputAction> Input_Parry;
+
+	// TODO :: Move to separate component
 	UPROPERTY(EditDefaultsOnly, Category = "Visual")
 	FColor HitFlashColor = FColor::Cyan;
 

@@ -20,5 +20,5 @@ class ACTIONROGUELIKE_API IAttributesInterface
 
 public:
 	UFUNCTION(BlueprintNativeEvent)
-	USAttributesComponent* GetAttributesComponent();
+	USAttributesComponent* GetAttributesComponent() const;
 };

@@ -34,14 +34,17 @@ protected:
 	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
-
 	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* TriggerParticle;
+	TObjectPtr<UParticleSystemComponent> TriggerParticle;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Teleport")
+	float TeleportTime = 0.2f;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Teleport")
+	float TriggerTime = 0.2f;
+
+private:
 	FTimerHandle TriggerProjectileHandle;
 	FTimerHandle TeleportHandle;
-	
-	float TeleportTime = 0.2f;
-	float TriggerTime = 0.2f;
 
 };

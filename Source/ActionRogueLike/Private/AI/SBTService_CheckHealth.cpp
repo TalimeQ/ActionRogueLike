@@ -2,7 +2,6 @@
 
 
 #include "AI/SBTService_CheckHealth.h"
-
 #include "AIController.h"
 #include "SAttributesComponent.h"
 #include "AI/SAICharacter.h"
@@ -26,22 +25,29 @@ void USBTService_CheckHealth::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	}
 
 	APawn* APawn = MyController->GetPawn();
-	if(APawn)
+	if(!ensure(APawn))
 	{
-		USAttributesComponent* AttributesComp = IAttributesInterface::Execute_GetAttributesComponent(APawn);
-		if(AttributesComp)
-		{
-			float Health = AttributesComp->GetHealth();
-			float HealthMax = AttributesComp->GetHealthMax();
+		return;
+	}
 
-			if(Health / HealthMax <= RequiredHealthPercent)
-			{
-				Blackboard->SetValueAsBool(NeedHealKey.SelectedKeyName,true);
-			}
-			else
-			{
-				Blackboard->SetValueAsBool(NeedHealKey.SelectedKeyName,false);
-			}
+	if(!ensure(APawn->Implements<UAttributesInterface>()))
+	{
+		return;
+	}
+	
+	USAttributesComponent* AttributesComp = IAttributesInterface::Execute_GetAttributesComponent(APawn);
+	if(AttributesComp)
+	{
+		float Health = AttributesComp->GetHealth();
+		float HealthMax = AttributesComp->GetHealthMax();
+
+		if(Health / HealthMax <= RequiredHealthPercentage)
+		{
+			Blackboard->SetValueAsBool(NeedHealKey.SelectedKeyName,true);
+		}
+		else
+		{
+			Blackboard->SetValueAsBool(NeedHealKey.SelectedKeyName,false);
 		}
 	}
 }

@@ -15,12 +15,12 @@ class ACTIONROGUELIKE_API USBTService_CheckHealth : public UBTService
 	GENERATED_BODY()
 
 protected:
+	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+	
+protected:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	FBlackboardKeySelector NeedHealKey;
 
 	UPROPERTY(EditAnywhere, Category = "AI", meta = (UIMax = 1.0f, UIMin = 0.0f, ClampMax = 1.0f, ClampMin = 0.0f))
-	float RequiredHealthPercent = 0.25;
-	
-protected:
-	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+	float RequiredHealthPercentage = 0.25;
 };

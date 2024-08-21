@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interfaces/AttributesInterface.h"
+#include "Interfaces/SCreditsInterface.h"
 #include "SAICharacter.generated.h"
 
 class UPawnSensingComponent;
@@ -14,7 +15,7 @@ class USWorldUserWidget;
 class USActionComponent;
 
 UCLASS()
-class ACTIONROGUELIKE_API ASAICharacter : public ACharacter , public IAttributesInterface
+class ACTIONROGUELIKE_API ASAICharacter : public ACharacter , public IAttributesInterface , public ISCreditsInterface
 {
 	GENERATED_BODY()
 
@@ -24,6 +25,8 @@ public:
 	virtual void PostInitializeComponents() override;
 	
 	USAttributesComponent* GetAttributesComp() const;
+
+	virtual int32 GetCreditsReward_Implementation() const override {return CreditsAwarded;};
 	
 	bool IsAlive();
 
@@ -32,7 +35,8 @@ protected:
 	void OnPawnSensed(APawn* Pawn);
 
 	UFUNCTION()
-	virtual USAttributesComponent* GetAttributesComponent_Implementation() override;
+	virtual USAttributesComponent* GetAttributesComponent_Implementation() const override;
+	
 	void TriggerHitFlash();
 
 	UFUNCTION()
@@ -52,6 +56,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<USWorldUserWidget> SpottedWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 CreditsAwarded = 10;
 
 	UPROPERTY()
 	TObjectPtr<USWorldUserWidget> SpottedWidgetInstance;

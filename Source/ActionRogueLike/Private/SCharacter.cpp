@@ -68,7 +68,7 @@ void ASCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// Called to bind functionality to input
+// TODO :: Potentially move it to other component 
 void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -85,13 +85,11 @@ void ASCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 	InputComp->BindAction(Input_Move,ETriggerEvent::Triggered,this,&ASCharacter::Move);
 	InputComp->BindAction(Input_LookMouse,ETriggerEvent::Triggered,this,&ASCharacter::LookMouse);
-
-	// TODO :: Potentially we should put projectiles into second component atm, but there is queued ability comp somewhere in course so lets do not do this :)
 	InputComp->BindAction(Input_PrimaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,MainAttackAction);
 	InputComp->BindAction(Input_SecondaryAttack,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,SecondaryAttackAction);
 	InputComp->BindAction(Input_Dash,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,DashAction);
 	InputComp->BindAction(Input_Jump,ETriggerEvent::Triggered,this,&ASCharacter::PerformJump);
-	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp,&USInteractionComponent::PrimaryInteract);
+	InputComp->BindAction(Input_Interact,ETriggerEvent::Triggered,InteractionComp.Get(),&USInteractionComponent::PrimaryInteract);
 	InputComp->BindAction(Input_Sprint,ETriggerEvent::Started,this,&ASCharacter::SprintStart);
 	InputComp->BindAction(Input_Sprint,ETriggerEvent::Completed,this,&ASCharacter::SprintStop);
 	InputComp->BindAction(Input_Parry,ETriggerEvent::Triggered,this,&ASCharacter::PerformAbility,ParryAction);

@@ -30,8 +30,8 @@ protected:
 	TSubclassOf<USAction> GrantedAction;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	USphereComponent* SphereComp = nullptr;
+	TObjectPtr<USphereComponent> SphereComp = nullptr;
 
 	UPROPERTY(VisibleAnywhere,  Category = "Components")
-	UStaticMeshComponent* PowerupMesh = nullptr;
+	TObjectPtr<UStaticMeshComponent> PowerupMesh = nullptr;
 };
