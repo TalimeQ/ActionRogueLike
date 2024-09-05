@@ -5,7 +5,7 @@
 
 ASInteractableActor::ASInteractableActor() : Super()
 {
-
+	SetReplicates(true);
 }
 
 void ASInteractableActor::BeginPlay()

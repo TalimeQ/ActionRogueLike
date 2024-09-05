@@ -29,7 +29,7 @@ void USWorldUserWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 	{
 		float Scale = UWidgetLayoutLibrary::GetViewportScale(this);
 
-		ScreenPosition /= Scale;\
+		ScreenPosition /= Scale;
 
 		if(ParentSizeBox)
 		{

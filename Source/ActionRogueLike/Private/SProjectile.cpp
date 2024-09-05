@@ -23,7 +23,9 @@ ASProjectile::ASProjectile()
 	MovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("MovementComp");
 	MovementComp->InitialSpeed = 1000.0f;
 	MovementComp->bRotationFollowsVelocity = true;
-	MovementComp->bInitialVelocityInLocalSpace = true;;
+	MovementComp->bInitialVelocityInLocalSpace = true;
+
+	SetReplicates(true);
 }
 
 void ASProjectile::PostInitializeComponents()

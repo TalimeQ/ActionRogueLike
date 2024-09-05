@@ -88,6 +88,15 @@ void ASGameModeBase::StartPlay()
 	Super::StartPlay();
 
 	GetWorldTimerManager().SetTimer(TimerHandle_SpawnBots,this,&ASGameModeBase::SpawnBotsTimerElapsed,SpawnTimerInterval,true);
+
+	if(ensure(PowerUpClasses.Num() > 0))
+	{
+		UEnvQueryInstanceBlueprintWrapper* QueryInstance = UEnvQueryManager::RunEQSQuery(this, PowerUpSpawnQuery,this,EEnvQueryRunMode::AllMatching,nullptr);
+		if(ensure(QueryInstance))
+		{
+			QueryInstance->GetOnQueryFinishedEvent().AddDynamic(this, &ASGameModeBase::OnPowerupQueryCompleted);
+		}
+	}
 }
 
 void ASGameModeBase::RespawnPlayerElapsed(AController* Controller)
@@ -97,6 +106,52 @@ void ASGameModeBase::RespawnPlayerElapsed(AController* Controller)
 		Controller->UnPossess();
 		
 		RestartPlayer(Controller);
+	}
+}
+
+void ASGameModeBase::OnPowerupQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance,
+	EEnvQueryStatus::Type QueryStatus)
+{
+	if(QueryStatus != EEnvQueryStatus::Success)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("Spawn power up EQS Query Failed"));
+		return;
+	}
+
+	if(!ensureAlwaysMsgf(PowerUpClasses.Num() > 0,TEXT("ASGameModeBase :: Power Up query run with no powerups, this is cardinal error")))
+	{
+		return;
+	}
+	
+	
+	
+	TArray<FVector> UsedLocations;
+	TArray<FVector> Locations = QueryInstance->GetResultsAsLocations();
+	
+	if(Locations.Num() <= 0)
+	{
+		UE_LOG(LogTemp,Warning,TEXT("No Locations found for powerup spawn"));
+		return;
+	}
+	
+	int32 SpawnCounter = 0;
+	int32 ClampedSpawnAmount = FMath::Clamp(DesiredPowerUpAmount,0,Locations.Num());
+	
+	while(SpawnCounter < ClampedSpawnAmount)
+	{
+		int32 RandomLocationIndex = FMath::RandRange(0,Locations.Num());
+
+		// TODO :: Move to interface or something
+		const FVector Offset = FVector(0.0f,0.0f,50.0f);
+		
+		FVector PickedLocation = Locations[RandomLocationIndex] + Offset;
+		Locations.RemoveAt(RandomLocationIndex);
+
+		int32 RandomClassIndex = FMath::RandRange(0,PowerUpClasses.Num() - 1);
+		TSubclassOf<AActor> RandomPowerUpClass = PowerUpClasses[RandomClassIndex];
+
+		GetWorld()->SpawnActor<AActor>(RandomPowerUpClass,PickedLocation,FRotator::ZeroRotator);
+		SpawnCounter ++;
 	}
 }
 

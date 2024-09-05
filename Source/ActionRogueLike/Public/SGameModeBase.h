@@ -19,9 +19,6 @@ class ACTIONROGUELIKE_API ASGameModeBase : public AGameModeBase
 
 public:
 	ASGameModeBase();
-
-	UFUNCTION()
-	void OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
 	
 	UFUNCTION()
 	void SpawnBotsTimerElapsed();
@@ -36,6 +33,13 @@ public:
 protected:
 	UFUNCTION()
 	void RespawnPlayerElapsed(AController* Controller);
+
+	UFUNCTION()
+	void OnPowerupQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	
+	UFUNCTION()
+	void OnQueryCompleted(UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus::Type QueryStatus);
+	
 	
 protected:
 	FTimerHandle TimerHandle_SpawnBots;
@@ -51,4 +55,13 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TObjectPtr<UCurveFloat> DifficultyCurve = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PowerUps")
+	TArray<TSubclassOf<AActor>> PowerUpClasses;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PowerUps")
+	TObjectPtr<UEnvQuery> PowerUpSpawnQuery;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PowerUps")
+	int32 DesiredPowerUpAmount = 0;
 };
