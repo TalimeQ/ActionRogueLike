@@ -139,7 +139,7 @@ void ASGameModeBase::OnPowerupQueryCompleted(UEnvQueryInstanceBlueprintWrapper* 
 	
 	while(SpawnCounter < ClampedSpawnAmount)
 	{
-		int32 RandomLocationIndex = FMath::RandRange(0,Locations.Num());
+		int32 RandomLocationIndex = FMath::RandRange(0,Locations.Num() - 1);
 
 		// TODO :: Move to interface or something
 		const FVector Offset = FVector(0.0f,0.0f,50.0f);

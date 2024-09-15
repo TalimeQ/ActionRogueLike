@@ -45,6 +45,12 @@ public:
 	float GetRage() const;
 	float GetRageMax() const;
 
+protected:
+	// Reliable multicasts ingore relevancy
+	
+	UFUNCTION(NetMulticast,Reliable) // @FIXME : mark as unreliable as we move the controller hookup from character
+	void MultiCastHealthChanged(AActor* InstigatorActor, float NewHealth, float Delta);
+	
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnHealthChanged OnHealthChanged;
@@ -53,10 +59,10 @@ public:
 	FOnRageChanged OnRageChanged;
 	
 protected:
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Replicated, Category = "Attributes")
 	float Health = 0;
 	
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Replicated, Category = "Attributes")
 	float MaxHealth = 0;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly, Category = "Attributes")

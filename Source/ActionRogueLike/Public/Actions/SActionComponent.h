@@ -35,6 +35,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION(Server,Reliable)
+	void Server_StartAction(AActor* Instigator, FName ActionName);
+	
 public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Tags")
 	FGameplayTagContainer ActiveGameplayTags;

@@ -5,6 +5,13 @@
 
 #include "Actions/SAction.h"
 
+USActionComponent::USActionComponent()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+	SetIsReplicatedByDefault(true);
+}
+
+
 void USActionComponent::AddAction(AActor* Instigator, TSubclassOf<USAction> ActionClass)
 {
 	if(!ensure(ActionClass))
@@ -34,6 +41,11 @@ void USActionComponent::RemoveAction(USActionEffect* RemovedAction)
 	Actions.Remove(RemovedAction);
 }
 
+void USActionComponent::Server_StartAction_Implementation(AActor* Instigator, FName ActionName)
+{
+	StartActionByName(Instigator,ActionName);
+}
+
 bool USActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 {
 	for(USAction* Action : Actions)
@@ -46,7 +58,11 @@ bool USActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 		    	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::White,DebugMsg);
 			    continue;
 		    }
-		
+			if(!GetOwner()->HasAuthority())
+			{
+				Server_StartAction(Instigator,ActionName);
+			}
+			
 			Action->StartAction(Instigator);
 			return true;
 		}
@@ -71,11 +87,6 @@ bool USActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 	return false;
 }
 
-USActionComponent::USActionComponent()
-{
-	PrimaryComponentTick.bCanEverTick = true;
-}
-
 void USActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -84,6 +95,7 @@ void USActionComponent::BeginPlay()
 		AddAction(GetOwner(),ActionClass);
 	}
 }
+
 
 void USActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

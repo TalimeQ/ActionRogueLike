@@ -3,6 +3,7 @@
 
 #include "SAttributesComponent.h"
 
+#include "Net/UnrealNetwork.h"
 
 
 static TAutoConsoleVariable<float> CVarGlobalDamageMulti(TEXT("su.DamageMultiplier"),1.0f,TEXT("Changes the global damage multipler"),ECVF_Cheat);
@@ -14,6 +15,17 @@ USAttributesComponent::USAttributesComponent()
 
 	Rage = 0.0f;
 	RageMax = 25.0f;
+
+	SetIsReplicatedByDefault(true);
+}
+
+void USAttributesComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(USAttributesComponent,Health);
+	DOREPLIFETIME(USAttributesComponent,MaxHealth);
+	// DOREPLIFETIME_CONDITION(USAttributesComponent, MaxHealth,COND_InitialOnly);
 }
 
 bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Delta)
@@ -32,7 +44,12 @@ bool USAttributesComponent::ApplyHealthChange(AActor* InstigatorActor, float Del
 	float OldHealth = Health;
 	Health = FMath::Clamp(Health + Delta,0.0f,MaxHealth);
 	float ActualDelta = Health - OldHealth;
-	OnHealthChanged.Broadcast(InstigatorActor,this,Health,ActualDelta);
+	//OnHealthChanged.Broadcast(InstigatorActor,this,Health,ActualDelta);
+	if(!FMath::IsNearlyZero(ActualDelta))
+	{
+		MultiCastHealthChanged(InstigatorActor,Health,ActualDelta);
+	}
+
 
 	if(ActualDelta < 0.0f)
 	{
@@ -79,6 +96,11 @@ float USAttributesComponent::GetRage() const
 float USAttributesComponent::GetRageMax() const
 {
 	return RageMax;
+}
+
+void USAttributesComponent::MultiCastHealthChanged_Implementation(AActor* InstigatorActor, float NewHealth, float Delta)
+{
+	OnHealthChanged.Broadcast(InstigatorActor,this,NewHealth,Delta);
 }
 
 // Duplicates some code from 

@@ -59,10 +59,10 @@ bool ASAICharacter::IsAlive()
 
 void ASAICharacter::OnPawnSensed(APawn* Pawn)
 {
-	SetTargetActor(Pawn);
 	if(CachedTarget == nullptr)
 	{
 		CachedTarget = Pawn;
+		SetTargetActor(Pawn);
 		if(ensure(SpottedWidgetClass))
 		{
 			SpottedWidgetInstance = CreateWidget<USWorldUserWidget>(GetWorld(),SpottedWidgetClass);
